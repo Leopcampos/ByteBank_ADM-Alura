@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
 namespace bytebank_ADM.Funcionarios
 {
-    public class Funcionario
+    public abstract class Funcionario
     {
         public string Nome { get; set; }
-        public string Cpf { get; set; }
-        public double Salario { get; set; }
+        public string Cpf { get; private set; }
+        public double Salario { get; protected set; }
+        public static int TotalDeFuncionarios { get; private set; }
 
-        public virtual double GetBonificacao()
+        public Funcionario(string cpf, double salario)
         {
-            return Salario * 0.10;
+            this.Salario = salario;
+            this.Cpf = cpf;
+            TotalDeFuncionarios++;
         }
+
+        public abstract double GetBonificacao();
+
+        public abstract void AumentarSalario();
+
 
         public virtual double SalarioAtualizado()
         {
@@ -25,7 +28,9 @@ namespace bytebank_ADM.Funcionarios
 
         public override string ToString()
         {
-            return Nome + ", " +  Cpf + ", " + SalarioAtualizado().ToString("C2", CultureInfo.CurrentCulture);
+            return "Nome: " + Nome + ", CPF: " + Cpf + ", Salário Atual: " + SalarioAtualizado().ToString("C2", CultureInfo.CurrentCulture);
         }
+
+        
     }
 }
